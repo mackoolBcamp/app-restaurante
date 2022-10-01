@@ -2,15 +2,16 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAzBSBxuM6TwfnH4ShnZMRX0vIfiReFbaA",
-  authDomain: "donchoripan-choripan.firebaseapp.com",
-  projectId: "donchoripan-choripan",
-  storageBucket: "donchoripan-choripan.appspot.com",
-  messagingSenderId: "507269926446",
-  appId: "1:507269926446:web:9f69d445cc466ff88d19bf",
+  apiKey: "AIzaSyArK1IBr5J4X3DHbt5_3XrKPQE8oljYU50",
+  authDomain: "restaurante-e45b4.firebaseapp.com",
+  projectId: "restaurante-e45b4",
+  storageBucket: "restaurante-e45b4.appspot.com",
+  messagingSenderId: "446136510629",
+  appId: "1:446136510629:web:a7a2d3c1e2cc7dbb05854c",
 };
 
-const app = initializeApp(firebaseConfig);
+const appFirebase = initializeApp(firebaseConfig);
 
 //exportamos toda la config. a una constante
-export const db = getFirestore(app);
+// export const db = getFirestore(app);
+export default appFirebase;
