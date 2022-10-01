@@ -26,23 +26,31 @@ const Home = ({ correoUsuario }) => {
   //variables de estado
   const [user, setUser] = useState(valorInicial);
   const [lista, setLista] = useState([]);
+  const [subId, setSubId] = useState("");
   //capturar los inputs
   const capturarInputs = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
-
+  // guardar datos
   const guardarDatos = async (e) => {
     e.preventDefault();
     // console.log(user);
-    try {
-      await addDoc(collection(db, "reservaciones"), {
+    if (subId === "") {
+      try {
+        await addDoc(collection(db, "reservaciones"), {
+          ...user,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      await setDoc(doc(db, "reservaciones", subId), {
         ...user,
       });
-    } catch (error) {
-      console.log(error);
     }
     setUser({ ...valorInicial });
+    setSubId("");
   };
 
   // funcion para renderizar lista de usuarios
@@ -66,6 +74,23 @@ const Home = ({ correoUsuario }) => {
   const deleteUser = async (id) => {
     await deleteDoc(doc(db, "reservaciones", id));
   };
+
+  // editar usuario
+  const getOne = async (id) => {
+    try {
+      const docRef = doc(db, "reservaciones", id);
+      const docSnap = await getDoc(docRef);
+      setUser(docSnap.data());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (subId !== "") {
+      getOne(subId);
+    }
+  }, [subId]);
 
   return (
     <div className="container">
@@ -108,7 +133,9 @@ const Home = ({ correoUsuario }) => {
                   value={user.telefono}
                 />
               </div>
-              <button className="btn btn-primary">Guardar</button>
+              <button className="btn btn-primary">
+                {subId === "" ? "Guardar" : "Actualizar"}
+              </button>
             </div>
           </form>
         </div>
@@ -128,7 +155,12 @@ const Home = ({ correoUsuario }) => {
                   >
                     Eliminar
                   </button>
-                  <button className="btn btn-success m-1">Actualizar</button>
+                  <button
+                    className="btn btn-success m-1"
+                    onClick={() => setSubId(list.id)}
+                  >
+                    Editar
+                  </button>
                   <hr />
                 </div>
               ))}
