@@ -11,7 +11,6 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { async } from "@firebase/util";
 
 const auth = getAuth(appFirebase);
 const db = getFirestore(appFirebase);
@@ -94,8 +93,8 @@ const Home = ({ correoUsuario }) => {
 
   return (
     <div className="container">
-      <p>
-        Bienvenido, <strong>{correoUsuario}</strong> Haz iniciado sesion
+      <p className="text mt-4">
+        Bienvenid@, <strong>{correoUsuario}</strong> iniciaste sesion
       </p>
       <button className="btn btn-primary" onClick={() => signOut(auth)}>
         Cerrar Sesion
